@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<modification>
+    <name>Strides OnePage Checkout</name>
+    <code>Strides-onepage-checkout</code>
+    <version>1.0</version>
+    <author>Strides Hovo</author>
+    <link>https://www.facebook.com/patvirelkayq</link>
+    <file path="system/library/cache/file.php">
+        <operation>
+            <search trim="true">
+                <![CDATA[unlink($file);]]>
+            </search>
+            <add position="replace" trim="false">
+                <![CDATA[@unlink($file);]]>
+            </add>
+        </operation>
+    </file>
+    <file path="catalog/controller/checkout/checkout.php">
+        <operation error="log">
+            <search ><![CDATA[$this->document->setTitle($this->language->get('heading_title'));]]></search>
+            <add position="after"><![CDATA[
+                 if ($this->config->get('module_strides_checkout_status') == 1) {
+                   $this->document->addScript('catalog/view/javascript/strides/js/strides_checkout.js');
+                   $this->document->addStyle('catalog/view/javascript/strides/css/strides_checkout.css');
+                } 
+            ]]>
+            </add>
+        </operation>
+        <operation error="log">
+            <search ><![CDATA[$this->response->setOutput($this->load->view('checkout/checkout', $data));]]></search>
+            <add position="replace"><![CDATA[
+                 if ($this->config->get('module_strides_checkout_status') == 1) {
+                    $model_data = $this->load->controller('extension/module/strides/checkout');
+                    $data = array_merge($data, $model_data);
+                    if ($data['layout'] == 1) {
+                        $this->response->setOutput($this->load->view('extension/module/strides_checkout/default', $data));
+                    } 
+                    else if ($data['layout'] == 2) {
+                        $this->response->setOutput($this->load->view('extension/module/strides_checkout/default2', $data));
+                    }
+                } 
+                else {
+                    $this->response->setOutput($this->load->view('checkout/checkout', $data));
+                }
+            ]]>
+            </add>
+        </operation>
+    </file>
+</modification>

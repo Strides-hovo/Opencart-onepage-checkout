@@ -1,0 +1,594 @@
+{{ header }}{{ column_left }}
+<div id="content">
+  	<div class="page-header">
+    	<div class="container-fluid">
+      		<div class="pull-right">
+        		<button type="submit" form="form-strides_checkout" data-toggle="tooltip" title="{{ button_save }}" class="btn btn-primary"><i class="fa fa-save"></i> {{ button_save }}</button>
+        		<button type="submit" form="form-strides_checkout" name="save_stay" value="1" data-toggle="tooltip" title="{{ entry_button_save_and_edit }}" class="btn btn-success1"><i class="fa fa-pencil-square-o"></i> {{ entry_button_save_and_edit }}</button>
+        		<a href="{{ cancel }}" data-toggle="tooltip" title="{{ button_cancel }}" class="btn btn-danger"><i class="fa fa-reply"></i> {{ button_cancel }}</a>
+        	</div>
+			<h1>{{ heading_title_so }}</h1>
+      		<ul class="breadcrumb">
+        		{% for breadcrumb in breadcrumbs %}
+        			<li><a href="{{ breadcrumb.href }}">{{ breadcrumb.text }}</a></li>
+        		{% endfor %}
+      		</ul>
+    	</div>
+  	</div>
+  	<div class="container-fluid">
+    	{% if error_warning %}
+    		<div class="alert alert-danger"><i class="fa fa-exclamation-circle"></i> {{ error_warning }}
+      			<button type="button" class="close" data-dismiss="alert">&times;</button>
+    		</div>
+    	{% endif %}
+    	{% if success %}
+    		<div class="alert alert-success"><i class="fa fa-check-circle"></i> {{ success }}
+      			<button type="button" class="close" data-dismiss="alert">&times;</button>
+    		</div>
+    	{% endif %}
+    	<div class="panel panel-default">
+      		<div class="panel-heading">
+        		<h3 class="panel-title"><i class="fa fa-pencil"></i> {{ text_setting }}</h3>
+      		</div>
+      		<div class="panel-body">
+	   			<form action="{{ action }}" method="post" enctype="multipart/form-data" id="form-strides_checkout" class="form-horizontal">
+					<ul class="nav nav-tabs" id="CheckoutTab">
+						<li class="active"><a href="#tab-general" data-toggle="tab"><i class="fa fa-cog fa-fw"></i> {{ tab_general }}</a></li>
+						<li><a href="#tab-layout" data-toggle="tab"><i class="fa fa-eye"></i> {{ tab_account_setting }}</a></li>
+						<li><a href="#tab-shopping-cart-setting" data-toggle="tab"><i class="fa fa-shopping-cart"></i> {{ tab_shipping_cart }}</a></li>
+						<li><a href="#tab-delivery_method-setting" data-toggle="tab"><i class="fa fa-truck" aria-hidden="true"></i> {{ tab_delivery_methods }}</a></li>
+						<li><a href="#tab-payment_method-setting" data-toggle="tab"><i class="fa fa-credit-card" aria-hidden="true"></i> {{ tab_payment_methods }}</a></li>
+						<li><a href="#tab-confirm_order-setting" data-toggle="tab"><i class="fa fa-cart-plus" aria-hidden="true"></i> {{ tab_confirm_order }}</a></li>
+						<li><a href="#tab-custom-fields" data-toggle="tab"><i class="fa fa-cart-plus" aria-hidden="true"></i> {{ tab_custom_fields }}</a></li>
+						<li><a href="#tab-custom-payment" data-toggle="tab"><i class="fa fa-credit-card" aria-hidden="true"></i> {{ tab_custom_payment }}</a></li>
+					</ul>
+					<div class="tab-content">
+						<div class="tab-pane active in" id="tab-general">
+							<div class="form-group">
+								<label class="col-sm-2 control-label" for="input-status"><span data-toggle="tooltip" title="" data-original-title="{{ entry_status_title }}">{{ entry_status }}</span></label>
+								<div class="col-sm-3">
+									<div class="btn-group" data-toggle="buttons">
+										<label class="btn btn-success btn-sm  {{ module_strides_checkout_status == 1 ? 'active' : '' }}"><input type="radio" name="module_strides_checkout_status"  {{ module_strides_checkout_status == 1 ? 'checked="checked"' : '' }}  value="1" autocomplete="off">{{ text_enabled }}</label>
+										<label class="btn btn-success btn-sm {{ module_strides_checkout_status == 0 ? 'active' : '' }}"><input type="radio" name="module_strides_checkout_status" {{ module_strides_checkout_status == 0 ? 'checked="checked"' : '' }} value="0" autocomplete="off">{{ text_disabled }}</label>
+									</div>
+				  				</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-2 control-label" for="input-name"><span data-toggle="tooltip" title="" data-original-title="{{ entry_name_title }}">{{ entry_name }}</span></label>
+								<div class="col-sm-3">
+				  					<input type="text" name="name" value="{{ name }}" placeholder="" id="input-name" class="form-control" />
+				  					{% if error_name %}
+				  						<div class="text-danger">{{ error_name }} ppp</div>
+				  					{% endif %}
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-2 control-label" for="input-layout"><span data-toggle="tooltip" title="" data-original-title="{{ text_layout_title }}">{{ text_layout }}</span></label>
+								<div class="col-sm-3">
+									<select name="layout" id="input-layout" class="form-control">
+			                			<option value="1" {{ layout == 1 ? 'selected="selected"' : '' }}>{{ text_layout_one }}</option>
+			                			<option value="2" {{ layout == 2 ? 'selected="selected"' : '' }}>{{ text_layout_two }}</option>
+			                		</select>
+				  				</div>
+							</div>
+							<div class="form-group">
+			                	<label class="col-sm-2 control-label" for="input-country"><span data-toggle="tooltip" title="" data-original-title="Set Default Country">{{ text_default_country }}</span></label>
+			                	<div class="col-sm-3">
+			                		<select name="default_country_id" id="input-country" class="form-control">
+			                			{% for country in countries %}
+			                				<option value="{{ country.country_id }}" {{ country.country_id == default_country_id ? 'selected="selected"' : '' }}>{{ country.name }}</option>
+			                			{% endfor %}
+			                		</select>
+			                	</div>
+			                </div>
+							<div class="form-group">
+								<label class="col-sm-2 control-label" for="input-zone"><span data-toggle="tooltip" title="" data-original-title="Set Default zone">{{ text_default_zone }}</span></label>
+								<div class="col-sm-3">
+									<select name="default_zone_id" id="input-zone" class="form-control">
+									</select>
+								</div>
+							</div>
+						</div>
+						<div class="tab-pane" id="tab-layout">
+							<div class="form-group">
+								<label class="col-sm-2 control-label" for="input-register_checkout"><span  data-toggle="tooltip" title="Enable/Disable Register Checkout ">{{ text_register_account }}</span></label>
+								<div class="col-sm-10">
+									<div class="btn-group" data-toggle="buttons">
+										<label class="btn btn-success btn-sm {{ register_checkout == 1 ? 'active' : '' }}"><input type="radio" name="register_checkout" {{ register_checkout == 1 ? 'checked="checked"' : '' }} value="1" autocomplete="off">{{ text_yes }}</label>
+										<label class="btn btn-success btn-sm {{ register_checkout == 0 ? 'active' : '' }}"><input type="radio" name="register_checkout" {{ register_checkout == 0 ? 'checked="checked"' : '' }} value="0" autocomplete="off">{{ text_no }}</label>
+									</div>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-2 control-label" for="input-guest_checkout"><span  data-toggle="tooltip" title="Enable/Disable Guest Checkout ">{{ text_guest_checkout }}</span></label>
+								<div class="col-sm-10">
+									<div class="btn-group" data-toggle="buttons">
+										<label class="btn btn-success btn-sm {{ guest_checkout == 1 ? 'active' : '' }}"><input type="radio"  name="guest_checkout" {{ guest_checkout == 1 ? 'checked="checked"' : '' }} value="1" autocomplete="off">{{ text_yes }}</label>
+										<label class="btn btn-success btn-sm {{ guest_checkout == 0 ? 'active' : '' }}"><input type="radio" name="guest_checkout" {{ guest_checkout == 0 ? 'checked="checked"' : '' }} value="0" autocomplete="off">{{ text_no }}</label>
+									</div>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-2 control-label" for="input-login_checkout"><span  data-toggle="tooltip" title="Enable/Disable Login ">{{ text_login_checkout }}</span></label>
+								<div class="col-sm-10">
+									<div class="btn-group" data-toggle="buttons">
+										<label class="btn btn-success btn-sm {{ login_checkout == 1 ? 'active' : '' }}"><input type="radio"  name="login_checkout" {{ login_checkout == 1 ? 'checked="checked"' : '' }} value="1" autocomplete="off">{{ text_yes }}</label>
+										<label class="btn btn-success btn-sm {{ login_checkout == 0 ? 'active' : '' }}"><input type="radio"  name="login_checkout" {{ login_checkout == 0 ? 'checked="checked"' : '' }} value="0" autocomplete="off">{{ text_no }}</label>
+									</div>
+								</div>
+							</div>
+							<div class="form-group">	
+								<label class="col-sm-2 control-label" for="input-account_open"><span data-toggle="tooltip" title="" data-original-title="Default select section">{{ text_default_display }}</span></label>
+								<div class="col-sm-3">
+									<div class="btn-group btn-group-justified" data-toggle="buttons">	
+										<label class="btn btn-success btn-sm {{ account_open == 'register' ? 'active' : '' }}"><input type="radio" name="account_open" {{ account_open == 'register' ? 'checked="checked"' : '' }} value="register" autocomplete="off" />{{ text_register }}</label>
+										<label class="btn btn-success btn-sm {{ account_open == 'guest' ? 'active' : '' }}"><input type="radio" name="account_open" {{ account_open == 'guest' ? 'checked="checked"' : '' }} value="guest" autocomplete="off" />{{ text_guest }}</label>
+										<label class="btn btn-success btn-sm {{ account_open == 'login' ? 'active' : '' }}"><input type="radio" name="account_open" {{ account_open == 'login' ? 'checked="checked"' : '' }} value="login" autocomplete="off" />{{ text_login }}</label>
+									</div>	 
+								</div>
+							</div>
+						</div>
+						<div id="tab-shopping-cart-setting" class="tab-pane">
+							<fieldset>
+								<div class="form-group">
+									<label class="col-sm-2 control-label" for="input-qnty_update"><span  data-toggle="tooltip" title="Show product Quantity update on cart">{{ text_quantity_update_permission }}</span></label>
+									<div class="col-sm-10">
+										<div class="btn-group" data-toggle="buttons">
+											<label class="btn btn-success btn-sm  {{ product_qnty_update == 1 ? 'active' : '' }}"><input type="radio"  name="product_qnty_update" {{ product_qnty_update == 1 ? 'checked="checked"' : '' }} value="1" autocomplete="off">{{ text_yes }}</label>
+											<label class="btn btn-success btn-sm  {{ product_qnty_update == 0 ? 'active' : '' }}"><input type="radio"  name="product_qnty_update" {{ product_qnty_update == 0 ? 'checked="checked"' : '' }} value="0" autocomplete="off">{{ text_no }}</label>
+										</div>
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-2 control-label" for="input-qnty_update"><span  data-toggle="tooltip" title="Show remove cart button">{{ text_show_removecart }}</span></label>
+									<div class="col-sm-10">
+										<div class="btn-group" data-toggle="buttons">
+											<label class="btn btn-success btn-sm  {{ product_remove == 1 ? 'active' : '' }}"><input type="radio"  name="product_remove" {{ product_remove == 1 ? 'checked="checked"' : '' }} value="1" autocomplete="off">{{ text_yes }}</label>
+											<label class="btn btn-success btn-sm  {{ product_remove == 0 ? 'active' : '' }}"><input type="radio"  name="product_remove" {{ product_remove == 0 ? 'checked="checked"' : '' }} value="0" autocomplete="off">{{ text_no }}</label>
+										</div>
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-2 control-label" for="input-image_width">{{ text_product_image_size }}</label>
+									<div class="col-sm-3">
+										<input type="text" value="{{ product_width }}" name="product_width" class="form-control" placeholder="Width">
+										{% if error_product_width %}
+					  						<div class="text-danger">{{ error_product_width }}</div>
+					  					{% endif %}
+									</div>
+									<div class="col-sm-3">
+										<input type="text" value="{{ product_height }}" name="product_height" class="form-control" placeholder="Height">
+										{% if error_product_height %}
+					  						<div class="text-danger">{{ error_product_height }}</div>
+					  					{% endif %}
+									</div>
+								</div>
+							</fieldset>
+							<fieldset>
+								<legend>{{ text_coupon_voucher }}</legend>
+								<table class="table table-bordered">
+									<thead>
+										<tr>
+											<td class="text-left">{{ text_show_module_name }}</td>
+											<th class="text-center">{{ text_login_account }}</th>
+											{# <th class="text-center">{{ text_register_account }}</th> #}
+											<th class="text-right">{{ text_guest_checkout }}</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+											<td class="text-left">{{ text_coupon }}</td>
+											<td class="text-center">
+												<div class="col-sm-12">
+													<div class="btn-group" data-toggle="buttons">
+														<label class="btn btn-success btn-sm  {{ module_strides_checkout_coupon_login_status == 1 ? 'active': '' }}"><input type="radio" name="module_strides_checkout_coupon_login_status" {{ module_strides_checkout_coupon_login_status == 1 ? 'checked="checked"': '' }} value="1" autocomplete="off">{{ text_yes }}</label>
+														<label class="btn btn-success btn-sm  {{ module_strides_checkout_coupon_login_status == 0 ? 'active': '' }}"><input type="radio" name="module_strides_checkout_coupon_login_status" {{ module_strides_checkout_coupon_login_status == 0 ? 'checked="checked"': '' }} value="0" autocomplete="off">{{ text_no }}</label>
+													</div>
+												</div>
+											</td>	
+											
+											<td class="text-right">
+												<div class="col-sm-12">
+													<div class="btn-group" data-toggle="buttons">
+														<label class="btn btn-success btn-sm  {{ module_strides_checkout_coupon_guest_status == 1 ? 'active': '' }}"><input type="radio" name="module_strides_checkout_coupon_guest_status" {{ module_strides_checkout_coupon_guest_status == 1 ? 'checked="checked"': '' }} value="1" autocomplete="off">{{ text_yes }}</label>
+														<label class="btn btn-success btn-sm  {{ module_strides_checkout_coupon_guest_status == 0 ? 'active': '' }}"><input type="radio" name="module_strides_checkout_coupon_guest_status" {{ module_strides_checkout_coupon_guest_status == 0 ? 'checked="checked"': '' }} value="0" autocomplete="off">{{ text_no }}</label>
+													</div>
+												</div>
+											</td>
+										</tr>
+										<tr>
+											<td class="text-left">{{ text_reward }}</td>
+											<td class="text-center">
+												<div class="col-sm-12">
+													<div class="btn-group" data-toggle="buttons">
+														<label class="btn btn-success btn-sm  {{ module_strides_checkout_reward_login_status == 1 ? 'active': '' }}"><input type="radio" name="module_strides_checkout_reward_login_status" {{ module_strides_checkout_reward_login_status == 1 ? 'checked="checked"': '' }} value="1" autocomplete="off">{{ text_yes }}</label>
+														<label class="btn btn-success btn-sm  {{ module_strides_checkout_reward_login_status == 0 ? 'active': '' }}"><input type="radio" name="module_strides_checkout_reward_login_status" {{ module_strides_checkout_reward_login_status == 0 ? 'checked="checked"': '' }} value="0" autocomplete="off">{{ text_no }}</label>
+													</div>
+												</div>
+											</td>	
+											
+											<td class="text-right">
+												<div class="col-sm-12">
+													<div class="btn-group" data-toggle="buttons">
+														<label class="btn btn-success btn-sm  {{ module_strides_checkout_reward_guest_status == 1 ? 'active': '' }}"><input type="radio" name="module_strides_checkout_reward_guest_status" {{ module_strides_checkout_reward_guest_status == 1 ? 'checked="checked"': '' }} value="1" autocomplete="off">{{ text_yes }}</label>
+														<label class="btn btn-success btn-sm  {{ module_strides_checkout_reward_guest_status == 0 ? 'active': '' }}"><input type="radio" name="module_strides_checkout_reward_guest_status" {{ module_strides_checkout_reward_guest_status == 0 ? 'checked="checked"': '' }} value="0" autocomplete="off">{{ text_no }}</label>
+													</div>
+												</div>
+											</td>
+										</tr>
+										<tr>
+											<td class="text-left">{{ text_voucher }}</td>
+											<td class="text-center">
+												<div class="col-sm-12">
+													<div class="btn-group" data-toggle="buttons">
+														<label class="btn btn-success btn-sm  {{ module_strides_checkout_voucher_login_status == 1 ? 'active': '' }}"><input type="radio" name="module_strides_checkout_voucher_login_status" {{ module_strides_checkout_voucher_login_status == 1 ? 'checked="checked"': '' }} value="1" autocomplete="off">{{ text_yes }}</label>
+														<label class="btn btn-success btn-sm  {{ module_strides_checkout_voucher_login_status == 0 ? 'active': '' }}"><input type="radio" name="module_strides_checkout_voucher_login_status" {{ module_strides_checkout_voucher_login_status == 0 ? 'checked="checked"': '' }} value="0" autocomplete="off">{{ text_no }}</label>
+													</div>
+												</div>
+											</td>	
+											
+											<td class="text-right">
+												<div class="col-sm-12">
+													<div class="btn-group" data-toggle="buttons">
+														<label class="btn btn-success btn-sm  {{ module_strides_checkout_voucher_guest_status == 1 ? 'active': '' }}"><input type="radio" name="module_strides_checkout_voucher_guest_status" {{ module_strides_checkout_voucher_guest_status == 1 ? 'checked="checked"': '' }} value="1" autocomplete="off">{{ text_yes }}</label>
+														<label class="btn btn-success btn-sm  {{ module_strides_checkout_voucher_guest_status == 0 ? 'active': '' }}"><input type="radio" name="module_strides_checkout_voucher_guest_status" {{ module_strides_checkout_voucher_guest_status == 0 ? 'checked="checked"': '' }} value="0" autocomplete="off">{{ text_no }}</label>
+													</div>
+												</div>
+											</td>
+										</tr>
+									</tbody>
+								</table>
+							</fieldset>
+						</div>
+						<div id="tab-delivery_method-setting" class="tab-pane">
+							{% if shipping_methods|length %}
+							<fieldset>
+								
+								<table class="table table-bordered">
+									<thead>
+										<tr>
+											<th class="text-left">{{ text_shipping_methods }}</th>
+											<th class="text-center">{{ text_status }}</th>
+										</tr>
+									</thead>
+									<tbody>
+										{% for shipping_method in shipping_methods %}
+										{% set shipping_status = shipping_method.code ~ '_status' %} 
+										{% set shipping = attribute(_context, 'module_strides_checkout_' ~ shipping_status ) %} 
+										 
+										<tr>
+											<td class="text-left">{{ shipping_method.title }}</td>
+											<td class="text-center">
+												<div class="col-md-12">
+													<div class="form-group">
+														<div class="btn-group" data-toggle="buttons">
+															<label class="btn btn-success btn-sm {{ shipping == 1 ? 'active' : '' }}">
+																<input type="radio" name="module_strides_checkout_{{ shipping_status }}" {{ shipping == 1 ? 'checked="checked"' : '' }} value="1" autocomplete="off">
+																{{ text_yes }}
+															</label>
+															<label class="btn btn-success btn-sm {{ shipping == 0 ? 'active' : '' }}">
+																<input type="radio" name="module_strides_checkout_{{ shipping_status }}" {{ shipping == 0 ? 'checked="checked"' : '' }} value="0" autocomplete="off">
+																{{ text_no }}
+															</label>
+														</div>
+													</div>
+												</div>
+											</td>
+										</tr>
+										{% endfor %}
+									</tbody>
+								</table>
+							</fieldset>
+							{% endif %}
+						</div>
+						<div id="tab-payment_method-setting" class="tab-pane">
+							{% if payment_methods|length %}
+							<fieldset>
+								
+								<table class="table table-bordered">
+									<thead>
+										<tr>
+											<th class="text-left">{{ text_payment_methods }}</th>
+											<th class="text-center">{{ text_status }}</th>
+										</tr>
+									</thead>
+									<tbody>
+										{% for payment_method in payment_methods %}
+										{% set payment_status = payment_method.code ~ '_status' %}
+										{% set payment = attribute(_context, 'module_strides_checkout_' ~ payment_status ) %} 
+										<tr>
+											<td class="text-left">{{ payment_method.title }}</td>
+											<td class="text-center">
+												<div class="col-md-12">
+													<div class="form-group">
+														<div class="btn-group" data-toggle="buttons">
+															<label class="btn btn-success btn-sm {{ payment == 1 ? 'active' : '' }}">
+																<input type="radio" name="module_strides_checkout_{{ payment_method.code }}_status" {{ payment == 1 ? 'checked="checked"' : '' }} value="1" autocomplete="off">
+																{{ text_yes }}
+															</label>
+															<label class="btn btn-success btn-sm {{ payment == 0 ? 'active' : '' }}">
+																<input type="radio" name="module_strides_checkout_{{ payment_method.code }}_status" {{ payment == 0 ? 'checked="checked"' : '' }} value="0" autocomplete="off">
+																{{ text_no }}
+															</label>
+														</div>
+													</div>
+												</div>
+											</td>
+										</tr>
+										{% endfor %}
+									</tbody>
+								</table>
+							</fieldset>
+							{% endif %}
+						</div>
+						<div id="tab-confirm_order-setting" class="tab-pane">
+							<fieldset>
+								<legend>{{ text_confirm_order }}</legend>
+								<div class="form-group">
+									<label class="col-sm-2 control-label" for="input-status">{{ text_add_comments }}</label>
+									<div class="col-sm-10">
+										<div class="btn-group" data-toggle="buttons">
+											<label class="btn btn-success btn-sm {{ comment_status == 1 ? 'active' : '' }}"><input type="radio" name="comment_status" {{ comment_status == 1 ? 'checked="checked"' : '' }} value="1" autocomplete="off">{{ text_yes }}</label>
+											<label class="btn btn-success btn-sm {{ comment_status == 0 ? 'active' : '' }}"><input type="radio" name="comment_status" {{ comment_status == 0 ? 'checked="checked"' : '' }} value="0" autocomplete="off">{{ text_no }}</label>
+										</div>
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-2 control-label" for="input-status">{{ text_require_comment }}</label>
+									<div class="col-sm-10">
+										<div class="btn-group" data-toggle="buttons">
+											<label class="btn btn-success btn-sm {{ comment_required == 1 ? 'active' : '' }}"><input type="radio" name="comment_required" {{ comment_required == 1 ? 'checked="checked"' : '' }} value="1" autocomplete="off">{{ text_yes }}</label>										
+											<label class="btn btn-success btn-sm {{ comment_required == 0 ? 'active' : '' }}"><input type="radio" name="comment_required" {{ comment_required == 0 ? 'checked="checked"' : '' }} value="0" autocomplete="off">{{ text_no }}</label>
+										</div>
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-2 control-label" for="input-status">{{ text_show_newsletter }}</label>
+									<div class="col-sm-10">
+										<div class="btn-group" data-toggle="buttons">
+											<label class="btn btn-success btn-sm {{ show_newsletter == 1 ? 'active' : '' }}"><input type="radio" name="show_newsletter" {{ show_newsletter == 1 ? 'checked="checked"' : '' }} value="1" autocomplete="off">{{ text_yes }}</label>
+											<label class="btn btn-success btn-sm {{ show_newsletter == 0 ? 'active' : '' }}"><input type="radio" name="show_newsletter" {{ show_newsletter == 0 ? 'checked="checked"' : '' }} value="0" autocomplete="off">{{ text_no }}</label>
+										</div>
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-2 control-label" for="input-status">{{ text_show_privacy }}</label>
+									<div class="col-sm-10">
+										<div class="btn-group" data-toggle="buttons">
+											<label class="btn btn-success btn-sm {{ show_privacy == 1 ? 'active' : '' }}"><input type="radio" name="show_privacy" {{ show_privacy == 1 ? 'checked="checked"' : '' }} value="1" autocomplete="off">{{ text_yes }}</label>
+											<label class="btn btn-success btn-sm {{ show_privacy == 0 ? 'active' : '' }}"><input type="radio" name="show_privacy" {{ show_privacy == 0 ? 'checked="checked"' : '' }} value="0" autocomplete="off">{{ text_no }}</label>
+										</div>
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-2 control-label" for="input-status">{{ text_show_term }}</label>
+									<div class="col-sm-10">
+										<div class="btn-group" data-toggle="buttons">
+											<label class="btn btn-success btn-sm {{ show_term == 1 ? 'active' : '' }}"><input type="radio" name="show_term" {{ show_term == 1 ? 'checked="checked"' : '' }} value="1" autocomplete="off">{{ text_yes }}</label>
+											<label class="btn btn-success btn-sm {{ show_term == 0 ? 'active' : '' }}"><input type="radio" name="show_term" {{ show_term == 0 ? 'checked="checked"' : '' }} value="0" autocomplete="off">{{ text_no }}</label>
+										</div>
+									</div>
+								</div>
+							</fieldset>
+						</div>
+						<div id="tab-custom-fields" class="tab-pane">
+							<fieldset id="strides_checkout-custom-fields">
+								<div class="form-group">
+									<label class="col-sm-2 control-label"><span  data-toggle="tooltip" title="Show Custom fields on checkout page">{{ text_show_custom_fields }}</span></label>
+									<div class="col-sm-10">
+										<div class="btn-group" data-toggle="buttons">
+											<label class="btn btn-success btn-sm  {{ show_custom_fields == 1 ? 'active' : '' }}"><input type="radio"  name="show_custom_fields" {{ show_custom_fields == 1 ? 'checked="checked"' : '' }} value="1" autocomplete="off">{{ text_yes }}</label>
+											<label class="btn btn-success btn-sm  {{ show_custom_fields == 0 ? 'active' : '' }}"><input type="radio"  name="show_custom_fields" {{ show_custom_fields == 0 ? 'checked="checked"' : '' }} value="0" autocomplete="off">{{ text_no }}</label>
+										</div>
+									</div>
+								</div>
+							</fieldset>
+						</div>
+						<div id="tab-custom-payment" class="tab-pane">
+							<fieldset id="strides_checkout-custom-payment">
+								<div class="form-group">
+									<div class="col-xs-12 col-sm-4">
+										<label class="col-sm-4 control-label"><span >{{ text_payment_minimum }}</span></label>
+										<div class="col-sm-6">
+											<input type="text" name="module_strides_checkout_payment_minimum" value="{{ module_strides_checkout_payment_minimum }}"  class="form-control" />
+											{% if error_payment_minimum %}
+												<div class="text-danger">{{ error_payment_minimum }} </div>
+											{% endif %}
+										</div>
+									</div>  
+									<div class="col-xs-12 col-sm-4">
+										<label class="col-sm-4 control-label"><span >{{ text_payment_color }}</span></label>
+										<input type="color" name="module_strides_checkout_bg_color" value="{{ module_strides_checkout_bg_color }}"  class="col-sm-4" />
+									</div>
+									<div class="col-xs-12 col-sm-4">
+										<label class="col-sm-4 control-label"><span >{{ text_payment_strides_total }}</span></label>
+										<div class="col-sm-6">
+											<input type="text" name="module_strides_checkout_payment_total" value="{{ module_strides_checkout_payment_total }}"  class="form-control" />
+											{% if error_payment_total %}
+												<div class="text-danger">{{ error_payment_total }} </div>
+											{% endif %}
+										</div>
+									</div>
+									
+								</div>
+
+								<div class="form-group">
+									<div class="col-xs-12 col-sm-3">
+										<label class="col-sm-6 control-label"><span >{{ text_payment_status }}</span></label>
+										<div class="col-sm-6">
+											<div class="btn-group" data-toggle="buttons">
+												<label class="btn btn-success btn-sm {{ module_strides_checkout_payment_status == 1 ? 'active' : '' }}">
+													<input type="radio" name="module_strides_checkout_payment_status" {{ module_strides_checkout_payment_status == 1 ? 'checked' : '' }} value="1" autocomplete="off">
+													{{ text_yes }}
+												</label>
+												<label class="btn btn-success btn-sm {{ module_strides_checkout_payment_status == 0 ? 'active' : '' }}">
+													<input type="radio" name="module_strides_checkout_payment_status" {{ module_strides_checkout_payment_status == 0 ? 'checked' : '' }} value="0" autocomplete="off">
+													{{ text_no }}
+												</label>
+											</div>
+										</div>
+										
+									</div>
+									<div class="col-xs-12 col-sm-3">
+										<label class="col-sm-6 control-label" for="payment_order_status_id"><span >{{ text_order_statuses }}</span></label>
+										<div class="col-sm-6">
+											<select name="module_strides_checkout_payment_order_status_id" id="payment_order_status_id" class="form-control">
+												{% for status in order_statuses %}
+													<option value="{{ status.order_status_id }}" {{ status.order_status_id == module_strides_checkout_payment_order_status_id ? 'selected' : '' }}>{{ status.name }}</option>
+												{% endfor %}
+											</select>
+										</div>
+									</div>
+									<div class="col-xs-12 col-sm-3">
+										<label class="col-sm-6 control-label" for="payment_geo_zone_id"><span >{{ text_payment_geo_zone }}</span></label>
+										<div class="col-sm-6">
+											<select name="module_strides_checkout_payment_geo_zone_id" id="payment_geo_zone_id" class="form-control">
+												<option value="0">{{ text_all_zones }}</option>
+												{% for zone in geo_zones %}
+													<option value="{{ zone.geo_zone_id }}" {{ zone.geo_zone_id == module_strides_checkout_payment_geo_zone_id ? 'selected' : '' }}>{{ zone.name }}</option>
+												{% endfor %}
+											</select>
+										</div>
+									</div>
+									<div class="col-xs-12 col-sm-3">
+										<label class="col-sm-4 control-label"><span >{{ text_payment_sort_order }}</span></label>
+										<div class="col-sm-6">
+											<input type="text" name="module_strides_checkout_payment_sort_order" value="{{ module_strides_checkout_payment_sort_order }}"  class="form-control" />
+											
+											{% if error_payment_sort_order %}
+												<div class="text-danger">{{ error_payment_sort_order }} </div>
+											{% endif %}
+										</div>
+									</div>
+								</div>
+									
+								</div>
+
+							</fieldset>
+						</div>
+					</div>
+				</form>
+			</div>
+      	</div>
+	</div>
+</div>
+
+{{ footer }}
+
+<script>
+
+
+function selected(country_id){
+	let zone_id = localStorage.getItem('zone_id')
+	$.get(`index.php?route=localisation/country/country&user_token={{ user_token }}&country_id=${country_id}`,null,'json').then(json => {
+		let html = ''
+		if (!json['zone'] && json['zone'] == ''){
+			html += '<option value="0" selected="selected"> --- None --- </option>';
+		}
+		else{
+			json.zone.forEach(item => {
+				html += '<option value="' + item['zone_id'] + '"';
+				if (item['zone_id'] == zone_id) {
+					html += ' selected="selected"';
+				}
+				html += '>' + item['name'] + '</option>';
+			})
+		}
+		$('select[name=\'default_zone_id\']').html(html);
+		$('#button-save').prop('disabled', false);
+	})
+}
+
+jQuery(document).ready(function($) {
+
+	$('select[name=\'default_zone_id\']').on('change', function(){
+		localStorage.setItem('zone_id', this.value)
+	})
+
+	$('select[name=\'default_country_id\']').on('change', function() {
+		selected(this.value)
+	});
+
+	$('select[name=\'default_country_id\']').trigger('change');
+	
+	// for bootstrap 3 use 'shown.bs.tab', for bootstrap 2 use 'shown' in the next line
+    $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+        // save the latest tab; use cookies if you like 'em better:
+        localStorage.setItem('lastTab', $(this).attr('href'));
+    });
+
+    // go to the latest tab, if it exists:
+    let lastTab = localStorage.getItem('lastTab');
+    if (lastTab) {
+        $('[href="' + lastTab + '"]').tab('show');
+    }
+    
+	$('#CheckoutTab a').click(function(e) {
+	  e.preventDefault();
+	  $(this).tab('show');
+	});
+
+	function setKey(){
+		return `<div class="form-group">
+			<div class="col-sm-3 field-key"><input type="text" value="" name="custom_field[key]" class="form-control" placeholder="Custom field name"></div>
+			<div class="col-sm-3 field-title"><input type="text" value="" name="custom_field[][1][title]" class="form-control" placeholder="Custom field title"></div>
+			
+			<label class="col-sm-2 control-label"><span  data-toggle="tooltip" title="Create Fields">{{ text_add_fields }}</span></label>
+			<div class="col-sm-1">
+				<button type="button" class="btn btn-primary"><i class="fa fa-plus" aria-hidden="true"></i> </button>
+				<button type="button" class="btn btn-danger col-sm" title="Delete"><i class="fa fa-minus" aria-hidden="true"></i> </button>
+			</div>
+		</div>`
+	}
+
+	$('#custom-field-add').click(function(){
+		const parent = this.closest('.form-group')
+		const key = setKey()
+		 $(parent).after((key))
+	
+	})
+
+/**
+	let aKey = $('.field-key input')
+	aKey.off()
+
+*/
+
+	$('#strides_checkout-custom-fields').on('input', '.field-key > input, .field-title > input, .field-language > select', function(evt ){
+		const parent = this.closest('div')
+		const parents = this.closest('.form-group')
+		if( $(parent).hasClass('field-title') ){
+			const _key = $(parents).find('.field-key > input').attr('name')
+			const lang = $('.field-language > select').val()
+			const __key = `${_key}[${lang}][title]`
+			this.setAttribute('name',__key) 
+			console.log( _key, lang, __key )
+		}
+		else if($(parent).hasClass('field-key')){
+			const key = this.value.trim()
+			if(key.length > 3){
+				this.value = this.value.replaceAll(' ', '_').toLowerCase()
+				this.setAttribute('name',`custom_field[${this.value}]`) 
+			}
+		}
+		else if($(parent).hasClass('field-language')){
+
+		}
+		
+		/**
+		
+		*/
+		
+	})
+
+	// store the currently selected tab in the hash value
+	// $("ul.nav-tabs li a, ul.nav-tabs li ul li a").on("shown.bs.tab", function(e) {
+	//   var id = $(e.target).attr("href").substr(1);
+	//   window.location.hash = id;
+	// });
+
+	// // on load of the page: switch to the currently selected tab
+	// var hash = window.location.hash;
+	// $('#CheckoutTab a[href="' + hash + '"]').tab('show');
+});
+</script>

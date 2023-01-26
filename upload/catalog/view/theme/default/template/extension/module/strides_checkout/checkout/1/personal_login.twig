@@ -1,0 +1,31 @@
+<div class="checkout-content checkout-register">
+   <fieldset id="account">
+        <h2 class="secondary-title"><i class="fa fa-user-plus"></i>{{ text_billing_address }}</h2>
+        {% if addresses %}
+                <div class="str-radio">
+                    <label>
+                        <input type="radio" name="{{ type }}_address" data-type="" value="existing" checked="checked" />
+                        {{ text_address_existing }}
+                    </label>
+                </div>
+                <div id="{{ type }}-existing">
+                        <select name="{{ type }}_address_id" class="form-control">
+                                {% for address in addresses %}
+                                        
+                                        {% if address.address_id == address_id %}
+                                                <option value="{{ address.address_id }}" selected="selected">{{ address.zone }}, {{ address.country }}</option>
+                                        {% else %}
+                                                <option value="{{ address.address_id }}">{{ address.zone }}, {{ address.country }}</option>
+                                        {% endif %}
+                                {% endfor %}
+                        </select>
+                </div>
+                <div class="radio">
+                    <label>
+                        <input type="radio" name="{{ type }}_address" value="new"/>
+                        {{ text_address_new }}
+                    </label>
+                </div>
+        {% endif %}
+     </fieldset>     
+</div>

@@ -1,0 +1,26 @@
+
+<div class="checkout-content checkout-payment-methods">
+  
+    {% if payment_methods %}
+        <h2 class="secondary-title"><i class="fa fa-credit-card"></i>{{ text_title_payment_method }}</h2>
+        <div class="box-inner">
+            {% for payment_method in payment_methods %}
+                <div class="str-radio">
+                        {% if payment_method.code == code %}
+                            <input type="radio" name="payment_method" value="{{ payment_method.code }}" checked="checked" id="payment_method_{{payment_method.code}}"/>
+                        {% elseif default_payment == payment_method.code %}
+                            <input type="radio" name="payment_method" value="{{ payment_method.code }}" checked="checked" id="payment_method_{{payment_method.code}}"/>
+                        {% else %}
+                            <input type="radio" name="payment_method" value="{{ payment_method.code }}" id="payment_method_{{payment_method.code}}"/>
+                        {% endif %}
+                        
+                        <label for="payment_method_{{payment_method.code}}"> <strong>{{ payment_method.title }} </strong>  </label>
+                        {% if payment_method.terms is defined and payment_method.terms %}
+                            ({{ payment_method.terms }})
+                        {% endif %}
+                        
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+</div>

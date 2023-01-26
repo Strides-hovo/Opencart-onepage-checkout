@@ -1,0 +1,18 @@
+<div class="checkout-content login-box">
+	<h2 class="secondary-title"><i class="fa fa-user"></i>{{ text_checkout_create_account_login }}</h2>
+        <div class="box-inner">
+            {% for key, account in accounts %}
+                <div class="str-radio">
+                    {% if account == 'register_checkout' %}
+                        <input type="radio" name="account" value="register" {% if account_open == 'register' %} checked {% endif %} id="account_{{key}}"><label for="account_{{key}}">{{ text_register }}</label>
+                    {% endif %}
+                    {% if account == 'guest_checkout' %}
+                        <input type="radio" name="account" value="guest" {% if account_open == 'guest' %} checked {% endif %} id="account_{{key}}"><label for="account_{{key}}">{{ text_guest }}</label>
+                    {% endif %}
+                    {% if account == 'login_checkout' %}
+                        <input type="radio" name="account" value="login" {% if account_open == 'login' %} checked {% endif %} id="account_{{key}}"><label for="account_{{key}}">{{ text_returning_customer }}</label>
+                    {% endif %}
+                </div>
+            {% endfor %}
+        </div>
+</div>

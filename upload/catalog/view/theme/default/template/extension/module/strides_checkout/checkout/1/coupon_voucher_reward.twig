@@ -1,0 +1,40 @@
+
+    {% if coupon_status or voucher_status or reward_status %}
+    <div class="checkout-content coupon-voucher">
+        <h2 class="secondary-title"><i class="fa fa-gift"></i>{{ text_coupon_voucher }}</h2>
+        <div class="box-inner">
+            {% if coupon_status %}
+            <div class="str-panel-body checkout-coupon ">
+                <div class="w-75">
+                    <input type="text" name="coupon" value="{{ coupon }}" placeholder="{{ text_enter_coupon_code }}" id="input-coupon" class="form-control" />
+                </div>
+                <span class="w-25">
+                    <button type="button" id="button-coupon" class="btn str-button w-100" data-loading-text="{{ text_loading }}">{{ text_apply_coupon }}</button>
+                </span>
+            </div>
+            {% endif %}
+
+            {% if voucher_status %}
+            <div class="str-panel-body checkout-voucher">
+                <div class="w-75">
+                    <input type="text" name="voucher" value="{{ voucher }}" placeholder="{{ text_enter_voucher_code }}" id="input-voucher" class="form-control" />
+                </div>    
+                <span class="w-25">
+                    <button type="button" id="button-voucher" class="btn str-button w-100" data-loading-text="{{ text_loading }}">{{ text_apply_voucher }}</button>
+                </span>
+            </div>
+            {% endif %}
+
+            {% if reward_status %}
+                <div class="str-panel-body checkout-reward">
+                    <div class="w-75">
+                        <input type="text" name="reward" value="{{ reward }}" placeholder="{{ text_enter_reward_points }}" id="input-reward" class="form-control" />
+                    </div>    
+                    <span class="w-25">
+                        <button type="button" id="button-reward" class="btn str-button w-100" data-loading-text="{{ text_loading }}">{{ text_apply_points }}</button>
+                    </span>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+    {% endif %}

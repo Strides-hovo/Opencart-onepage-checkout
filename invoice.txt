@@ -1,0 +1,1 @@
+Upload the invoice-files folder in the root of your site if you want to see the invoice filled in by the user in the admin panel

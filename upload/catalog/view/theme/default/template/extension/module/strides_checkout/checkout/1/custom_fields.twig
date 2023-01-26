@@ -1,0 +1,24 @@
+{% if custom_fields %}
+<div class="box-inner checkout-custom-filds">
+    <div class="box-inner strides_checkout-custom-filds">
+        {% set firstItem = custom_fields|first %}
+        {% for key,custom_field in custom_fields %}
+            <div class="str-radio">
+                <input type="radio" name="custom_field" value="{{key}}" id="custom_field_{{key}}" {% if firstItem == custom_field %} checked {% endif %}>
+                <label for="custom_field_{{key}}">{{ custom_field.title }}</label>
+            </div>
+        {% endfor %}
+    </div>
+    {% for i,custom_field in custom_fields %}
+        {% if custom_field.fields %}
+            <fieldset id="{{i}}" class="box-inner my-0" style="display: {{ firstItem == custom_field  ? 'flex' : 'none' }}">
+                {% for field in custom_field.fields %}
+                <div class="form-group {{i}} w-100 ml-0">
+                    <input type="text" name="checkout_custom_field[{{field.name}}]"  placeholder="{{field.title}}" class="form-control">
+                </div>
+                {% endfor %}
+            </fieldset>
+        {% endif %}
+    {% endfor %}
+</div>
+{% endif %}

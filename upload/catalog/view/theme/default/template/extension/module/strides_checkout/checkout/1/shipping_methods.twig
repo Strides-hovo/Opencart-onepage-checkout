@@ -1,0 +1,32 @@
+
+<div class="checkout-content checkout-shipping-methods">
+   
+    {% if shipping_methods %}
+        <h2 class="secondary-title"><i class="fa fa-location-arrow"></i>{{ text_title_shipping_method }}</h2>
+        <div class="box-inner">
+            {% for shipping_method in shipping_methods %}
+                <div class="str-radio">
+                    {% if not shipping_method.error %}
+                    {% for key, quote in shipping_method.quote %}
+                        <div class="radio {{ key }}  {{ quote.code }} {{ code }}"></div>
+                            {% set qucode = quote.code|split('.') %}
+                        
+                            {% if (quote.code == code) or (qucode[0] == code) %}
+                                <input type="radio" name="shipping_method" value="{{ quote.code }}" checked  id="shipping_method_{{qucode[0]}}" />
+                            {% elseif (default_shipping == key and not quote.code ) %}
+                                <input type="radio" name="shipping_method" value="{{ quote.code }}" checked id="shipping_method_{{qucode[0]}}" />
+                            {% else %}
+                                <input type="radio" name="shipping_method" value="{{ quote.code }}" id="shipping_method_{{qucode[0]}}" />
+                            {% endif %}
+                            <label for="shipping_method_{{qucode[0]}}"><strong>{{ quote.title }} - {{ quote.text }}</strong> </label>
+                    {% endfor %}
+                {% else %}
+                    <div class="alert alert-danger">{{ shipping_method.error }}</div>
+                {% endif %}
+                </div>
+                
+                
+            {% endfor %}
+        </div>
+    {% endif %}
+</div>

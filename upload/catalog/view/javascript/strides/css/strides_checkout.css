@@ -1,0 +1,202 @@
+:root {
+    --main-bg-color: #db3b77;
+}
+.d-flex{
+  display: flex;
+}
+.strides_checkout * {
+    font-size: 16px !important;
+}
+.w-100{
+  width: 100% !important;
+}
+.w-75{
+  width: 75% !important;
+}
+.w-25{
+  width: 25% !important;
+}
+
+.ml-0{
+  margin-left: 0 !important;
+}
+
+.my-0{
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
+}
+
+.owerflow, .errors {
+    position: fixed;
+    width: 100%;
+    height: 100vh;
+    background: #e4e4e561;
+    left: 0;
+    top: 0;
+    z-index: 99;
+    display: none;
+}
+
+.errors > .list {
+    margin: 12.5% auto;
+    display: flex;
+    align-items: flex-start;
+    position: relative;
+    max-width: 520px;
+    min-width: 330px;
+    background-color: #FFBABA;
+    padding: 15px 10px 15px 18px;
+}
+
+.errors > .list > img{
+  width: 50px;
+  margin-right: 10px;
+  cursor: pointer;
+  order: 2;
+  position: absolute;
+  right: 5px;
+  top: 5px;
+}
+
+.owerflow.active, .errors.active {
+    display: block;
+}
+.loader {
+    width: 48px;
+    height: 48px;
+    border: 3px solid #FFF;
+    border-radius: 50%;
+    display: block;
+    position: relative;
+    box-sizing: border-box;
+    animation: rotation 1s linear infinite;
+    margin: 12.5% auto;
+  }
+  .loader::after {
+    content: '';  
+    box-sizing: border-box;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 3px solid;
+    border-color: #FF3D00 transparent;
+  }
+  
+  @keyframes rotation {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  } 
+  
+  
+
+
+input[type='text'], input[type='email'], input[type='number'], input[type='password'], input[type='tel'], textarea {
+    border: 1px solid #f1f1f1;
+    box-shadow: none;
+    border-radius: 0px;
+}
+select.form-control{
+    height: auto;
+}
+input::placeholder {
+    font-size: 16px;
+}
+
+.link{
+    color: var(--main-bg-color);
+}
+
+
+.str-button, .confirm-order input, .confirm-order button, input[type="button"]{
+    background: var(--main-bg-color) !important;
+    color: #fff;
+}
+
+.form-control:focus {
+    border-color: var(--main-bg-color);
+    outline: 0;
+    -webkit-box-shadow: inset 0 1px 1px rgb(0 0 0 / 8%), 0 0 8px var(--main-bg-color);;
+    box-shadow: inset 0 1px 1px rgb(0 0 0 / 8%), 0 0 8px var(--main-bg-color);;
+}
+
+  .secondary-title {
+    background-color: #f1f1f1;
+    font-weight: bold;
+    font-size: 14px;
+    font-style: normal;
+    color: #000;
+    text-transform: uppercase;
+    padding: 0;
+    margin: 0;
+    border-radius: 5px 5px 0 0;
+}
+
+  .strides_checkout .secondary-title i.fa {
+    background-color: var(--main-bg-color);
+    color: #fff;
+    width: 45px;
+    height: 45px;
+    font-size: 20px;
+    text-align: center;
+    line-height: 45px;
+    border-radius: 5px 0 0;
+    margin-right: 10px;
+}
+
+.box-inner{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    margin: 20px 0;
+    border: 1px solid #f1f1f1;
+    border-top: 0px;
+    border-radius: 0 0 5px 5px;
+    padding: 20px;
+    width: 100%;
+}
+
+.box-inner > .form-group {
+    flex-grow: 1;
+    width: 49%;
+}
+
+.box-inner > .form-group:nth-child(even){
+    margin-left: 2%;
+}
+.str-radio > label{
+    margin-left: 7px;
+    cursor: pointer;
+}
+
+
+.coupon-voucher .str-panel-body {
+  width: 100%;
+  display: flex;
+  overflow: hidden;
+  margin: 5px 0;
+}
+
+
+.str-panel-body input{
+  height: auto;
+}
+
+.agree{
+  color: var(--main-bg-color);
+}
+
+.form-control[name^=quantity] {
+  min-width: 50px;
+  width: 70px;
+  height: auto;
+  margin-right: 15px;
+}

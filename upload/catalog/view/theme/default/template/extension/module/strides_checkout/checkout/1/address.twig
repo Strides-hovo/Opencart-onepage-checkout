@@ -1,0 +1,64 @@
+<div class="checkout-content checkout-{{ type }}-form" style="display: {{ type == 'payment' ? 'block' : 'none' }}">
+    <form id="checkout-{{ type }}">
+        <h2 class="secondary-title"><i class="fa fa-user-plus"></i>{{ type == 'payment' ? text_billing_address : text_delivery_address }}</h2>
+        <div class="payment-new box-inner">
+           
+                <div class="form-group company-input">
+                    <input type="text" name="{{ type }}_company" value="{{ fields.company }}" placeholder="{{ entry_company }}" id="input-{{ type }}-company" class="form-control"/>
+                </div>
+                <div class="form-group required">
+                    <input type="text" name="{{ type }}_address_1" value="{{ fields.address_1 }}" placeholder="{{ entry_address_1 }} *" id="input-{{ type }}-address-1" class="form-control"/>
+                </div>
+                <div class="form-group address-2-input">
+                    <input type="text" name="{{ type }}_address_2" value="{{ fields.address_2 }}" placeholder="{{ entry_address_2 }}" id="input-{{ type }}-address-2" class="form-control"/>
+                </div>
+                <div class="form-group required">
+                    <input type="text" name="{{ type }}_city" value="{{ fields.city }}" placeholder="{{ entry_city }} *" id="input-{{ type }}-city" class="form-control"/>
+                </div>
+                
+                <div class="form-group {% if country_info.postcode_required  %} required {% endif %}">
+                    <input type="text" name="{{ type }}_postcode" value="{{ fields.postcode }}" placeholder="{{ entry_postcode }} {% if country_info.postcode_required  %} * {% endif %}" id="input-{{ type }}-postcode" class="form-control"/>
+                </div>
+                <div class="form-group required">
+                    <select name="{{ type }}_country_id" id="input-{{ type }}-country" class="form-control" data-type="{{ type }}">
+                        <option value="">{{ text_select }}</option>
+                            {% for country in countries %}
+                                {% if country.country_id == country_id %}
+                                    <option value="{{ country.country_id }}" selected="selected">{{ country.name }}</option>
+                                {% else %}
+                                    <option value="{{ country.country_id }}">{{ country.name }}</option>
+                                {% endif %}
+                            {% endfor %}
+                    </select>
+                </div>
+                <div class="form-group required">
+                    <select name="{{ type }}_zone_id" id="input-{{ type }}-zone" class="form-control">
+                        {% for zone in zones %}
+                                {% if zone.zone_id == zone_id %}
+                                    <option value="{{ zone.zone_id }}" selected="selected">{{ zone.name }}</option>
+                                {% else %}
+                                    <option value="{{ zone.zone_id }}">{{ zone.name }}</option>
+                                {% endif %}
+                            {% endfor %}
+                    </select>
+                </div>
+            
+
+          
+        </div>
+    </form>
+ 
+</div>
+{% if type == 'payment' %}
+<div class="checkbox">
+    <label>
+       <input type="checkbox" name="shipping_address" value="1" checked="checked">
+          {{ text_billing_addresses }}
+    </label>
+</div>
+
+
+{% endif %}
+
+
+
